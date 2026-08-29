@@ -1,0 +1,58 @@
+---
+title: "Documentation client"
+description: "Use the TypeScript client to fetch projects, list documents, and search documents"
+---
+
+The `DocumentationClient` is a TypeScript client for the documentation API. It authenticates every request with a bearer token and returns JSON responses.
+
+## Prerequisites
+
+Before you begin, you must have:
+
+- The base URL of your documentation API
+- An API key
+
+## Create a client
+
+Call `createClient` with your base URL and API key:
+
+```typescript
+import { createClient } from './client.js';
+
+const client = createClient({
+  baseUrl: 'https://api.example.com',
+  apiKey: process.env.API_KEY,
+});
+```
+
+## Get a project
+
+`getProject` fetches a single project by ID from `v1/projects/{projectId}`:
+
+```typescript
+const project = await client.getProject('my-project');
+```
+
+## List documents
+
+`listDocuments` returns all document summaries for a project from `v1/projects/{projectId}/documents`:
+
+```typescript
+const documents = await client.listDocuments('my-project');
+```
+
+## Search documents
+
+`searchDocuments` returns document summaries that match a query string. It calls `v1/projects/{projectId}/documents/search` with the query passed as the `query` URL parameter:
+
+```typescript
+const results = await client.searchDocuments('my-project', 'getting started');
+```
+
+## Error handling
+
+If the API responds with a non-2xx status code, the client throws an `Error` that includes the HTTP status code:
+
+```text
+API request failed with status 404
+```
